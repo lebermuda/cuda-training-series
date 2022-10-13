@@ -93,6 +93,7 @@ int main(){
         list->key = i;
         alloc_bytes(list->next, sizeof(list_elem));
         list = list->next;}
+
     print_element(list_base, ele);
     gpu_print_element<<<1,1>>>(list_base, ele);
     cudaDeviceSynchronize();

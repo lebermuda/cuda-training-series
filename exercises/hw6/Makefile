@@ -12,7 +12,7 @@ CFLAGS= -L $(CUDA_HOME)/lib64 -L $(CUDANVIDIA)
 linked_list: linked_list_jean.o
 	$(NVCC) -arch=sm_35 $(CFLAGS)  -o $@ $^
 
-array_inc: array_inc.o
+array_inc: array_inc_jean.o
 	$(NVCC) -arch=sm_35 $(CFLAGS)  -o $@ $^
 
 clean:
