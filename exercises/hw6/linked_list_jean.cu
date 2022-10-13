@@ -52,6 +52,8 @@ int main(){
     dim3 dimBlock (num_elem-2,num_elem,1);
     gpu_kernel<<<dimGrid,dimBlock>>>(matrix,num_elem);
 
+    addElement(matrix,num_elem,num_elem-2,0);
+
     cudaDeviceSynchronize();
 
     //addElement(matrix,num_elem,num_elem-2,0);
