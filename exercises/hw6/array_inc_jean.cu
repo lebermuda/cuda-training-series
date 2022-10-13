@@ -29,7 +29,7 @@ int main(){
     char* data;
     cudaMallocManaged(&data,2*sizeof(char));
 
-    kernel_changeChar<<<1,1>>>(data,1,"k");
+    kernel_changeChar<<<1,1>>>(&data,1,"k");
     data[0]="O";
 
     //cudaDeviceSynchronize();
