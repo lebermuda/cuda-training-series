@@ -38,8 +38,9 @@ int main(){
 
     cudaMallocManaged(&matrix,num_elem*num_elem*sizeof(double));
 
-
-    gpu_kernel<<<5,5>>>(matrix,num_elem);
+    dim3 gridBlock = (1,1,1);
+    dim3 threadBlock = (5,5,1);
+    gpu_kernel<<<gridBlock,threadBlock>>>(matrix,num_elem);
     cudaDeviceSynchronize();
 
     printMatrix(matrix,num_elem);
