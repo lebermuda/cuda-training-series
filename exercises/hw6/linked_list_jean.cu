@@ -43,7 +43,7 @@ int main(){
     gpu_kernel<<<dimGrid,dimBlock>>>(matrix,num_elem);
 
     int index;
-    for (int i = num_element-2;i<num_elem;i++){
+    for (int i = num_elem-2;i<num_elem;i++){
         for (int j = 0;j<num_elem;j++){
             index=i*num_elem+j;
             matrix[index]=1;
