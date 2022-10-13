@@ -19,22 +19,37 @@ __global__ void inc(int *array, size_t n){
     }
 }
 
+__global__ void kernel_changeChar(char* data,int index, char caractere){
+    data[index]=caractere;
+}
+
 const size_t  ds = 32ULL*1024ULL*1024ULL;
 
 int main(){
-    int *h_array;
-    cudaMallocManaged(&h_array, ds*sizeof(d_array[0]));
+    char* data;
+    cudaMallocManaged(&data,2*sizeof(char));
 
-    memset(h_array, 0, ds*sizeof(h_array[0]));
+    kernel_changeChar<<<1,1>>>(data,1,"k");
+    data[0]="O";
 
-    inc<<<256, 256>>>(h_array, ds);
-    cudaDeviceSynchronize();
+    //cudaDeviceSynchronize();
+    //printf("%d\n",data);
 
-    for (int i = 0; i < ds; i++)
-        if (h_array[i] != 1) {printf("mismatch at %d, was: %d, expected: %d\n", i, h_array[i], 1); cudaFree(h_array); return -1;}
-    printf("success!\n");
-    cudaFree(h_array);
-    return 0;
+    cudaFree(data);
+
+//    int *h_array;
+//    cudaMallocManaged(&h_array, ds*sizeof(d_array[0]));
+//
+//    memset(h_array, 0, ds*sizeof(h_array[0]));
+//
+//    inc<<<256, 256>>>(h_array, ds);
+//    cudaDeviceSynchronize();
+//
+//    for (int i = 0; i < ds; i++)
+//        if (h_array[i] != 1) {printf("mismatch at %d, was: %d, expected: %d\n", i, h_array[i], 1); cudaFree(h_array); return -1;}
+//    printf("success!\n");
+//    cudaFree(h_array);
+//    return 0;
 
 //  int *h_array, *d_array;
 //  alloc_bytes(h_array, ds*sizeof(h_array[0]));
