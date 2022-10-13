@@ -31,6 +31,16 @@ void printMatrix(double* matrix,int n){
     }
 }
 
+void addElement(double* matrix, int n, int i_start,int j_start){
+    int index;
+    for (int i = i_start;i<n;i++){
+        for (int j = j_start;j<n;j++){
+            index=i*n+j;
+            matrix[index]=1;
+        }
+    }
+}
+
 const int num_elem = 5;
 int main(){
 
@@ -41,21 +51,14 @@ int main(){
     dim3 dimGrid (1,1,1);
     dim3 dimBlock (num_elem-2,num_elem,1);
     gpu_kernel<<<dimGrid,dimBlock>>>(matrix,num_elem);
-    
+
     cudaDeviceSynchronize();
 
-    int index;
-    for (int i = num_elem-2;i<num_elem;i++){
-        for (int j = 0;j<num_elem;j++){
-            index=i*num_elem+j;
-            matrix[index]=1;
-        }
-    }
-
+    addElement(matrix,num_elem,num_elem-2,0);
 
 
     printMatrix(matrix,num_elem);
 
-    free(matrix);
+    cudaFree(matrix);
 
 }
