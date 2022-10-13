@@ -31,8 +31,9 @@ int main(){
     cudaDeviceSynchronize();
 
     for (int i = 0; i < ds; i++)
-        if (h_array[i] != 1) {printf("mismatch at %d, was: %d, expected: %d\n", i, h_array[i], 1); return -1;}
+        if (h_array[i] != 1) {printf("mismatch at %d, was: %d, expected: %d\n", i, h_array[i], 1); cudaFree(h_array); return -1;}
     printf("success!\n");
+    cudaFree(h_array);
     return 0;
 
 //  int *h_array, *d_array;
