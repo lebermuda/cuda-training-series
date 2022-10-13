@@ -41,6 +41,8 @@ int main(){
     dim3 dimGrid (1,1,1);
     dim3 dimBlock (num_elem-2,num_elem,1);
     gpu_kernel<<<dimGrid,dimBlock>>>(matrix,num_elem);
+    
+    cudaDeviceSynchronize();
 
     int index;
     for (int i = num_elem-2;i<num_elem;i++){
@@ -50,7 +52,7 @@ int main(){
         }
     }
 
-    cudaDeviceSynchronize();
+
 
     printMatrix(matrix,num_elem);
 
