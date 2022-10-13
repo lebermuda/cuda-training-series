@@ -54,7 +54,7 @@ int main(){
 
     cudaDeviceSynchronize();
 
-    addElement(matrix,num_elem,num_elem-2,0);
+    //addElement(matrix,num_elem,num_elem-2,0);
 
 
     printMatrix(matrix,num_elem);
