@@ -56,5 +56,5 @@ int main(){
     print_element(list_base, ele);
     gpu_print_element<<<1,1>>>(list_base, ele);
     cudaDeviceSynchronize();
-    cudaCheckErrors("cuda error!");
+    //cudaCheckErrors("cuda error!");
 }
