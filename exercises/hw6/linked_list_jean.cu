@@ -6,60 +6,44 @@
 #include <helper_cuda.h>
 
 
-// error checking macro
-#define cudaCheckErrors(msg) \
-    do { \
-        cudaError_t __err = cudaGetLastError(); \
-        if (__err != cudaSuccess) { \
-            fprintf(stderr, "Fatal error: %s (%s at %s:%d)\n", \
-                msg, cudaGetErrorString(__err), \
-                __FILE__, __LINE__); \
-            fprintf(stderr, "*** FAILED - ABORTING\n"); \
-            exit(1); \
-        } \
-    } while (0)
-
 struct list_elem {
     int key;
     list_elem *next;
 };
 
-template <typename T>
-void alloc_bytes(T &ptr, size_t num_bytes){
 
-    ptr = (T)malloc(num_bytes);
+
+__global__ void gpu_kernel(double* matrix,int n){
+    int i =threadIdx.x+blockDim.x*blockIdx.x;
+    int j= threadIdx.y+blockDim.y*blockIdx.y;
+    int index = i*n+j;
+    matrix[index]=index;
 }
 
-__host__ __device__
-void print_element(list_elem *list, int ele_num){
-    list_elem *elem = list;
-    for (int i = 0; i < ele_num; i++)
-        elem = elem->next;
-    printf("key = %d\n", elem->key);
-}
-
-__global__ void gpu_print_element(list_elem *list, int ele_num){
-    print_element(list, ele_num);
+void printMatrix(double* matrix){
+    int index;
+    for (int i = 0;i<num_elem;i++){
+        for (int j = 0;j<num_elem;j++){
+            index=i*num_elem+j;
+            printf("%f ",matrix[index]);
+        }
+        printf("\n");
+    }
 }
 
 const int num_elem = 5;
-const int ele = 3;
 int main(){
 
-    list_elem *list_base, *list;
-    alloc_bytes(list_base, sizeof(list_elem));
-    list = list_base;
-    for (int i = 0; i < num_elem; i++){
-        list->key = i;
-        alloc_bytes(list->next, sizeof(list_elem));
-        list = list->next;}
+    double* matrix ;
 
-    //print_element(list_base, ele);
+    cudaMallocManaged(&matrix,num_elem*num_elem*sizeof(double));
 
-    gpu_print_element<<<1,1>>>(list_base, ele);
 
+    gpu_kernel<<<5,5>>>(matrix);
     cudaDeviceSynchronize();
 
+    printMatrix(matrix);
 
-    //cudaCheckErrors("cuda error!");
+    free(matrix);
+
 }
