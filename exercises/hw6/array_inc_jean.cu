@@ -19,19 +19,18 @@ __global__ void inc(int *array, size_t n){
     }
 }
 
-__global__ void kernel_changeChar(char* data){
-    data[1]="k";
+__global__ void kernel_changeChar(int* data){
+    data[1]=1;
 }
 
 const size_t  ds = 32ULL*1024ULL*1024ULL;
 
 int main(){
-    char* data;
-    cudaMallocManaged(&data,2);
+    int* data;
+    cudaMallocManaged(&data,2*sizeof(int));
 
-    //kernel_changeChar<<<1,1>>>(data);
-    data[0] = 'O';
-    data[1] = "k";
+    kernel_changeChar<<<1,1>>>(data);
+    data[0] = 0;
     //cudaDeviceSynchronize();
     //printf("%d\n",data);
 
