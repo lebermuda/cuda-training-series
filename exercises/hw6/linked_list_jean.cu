@@ -14,7 +14,8 @@ struct list_elem {
 template <typename T>
 void alloc_bytes(T &ptr, size_t num_bytes){
 
-    ptr = (T)malloc(num_bytes);
+    //ptr = (T)malloc(num_bytes);
+    cudaMallocManaged(&ptr,num_bytes);
 }
 
 __host__ __device__
@@ -93,6 +94,8 @@ int main(){
         alloc_bytes(list->next, sizeof(list_elem));
         list = list->next;}
     print_element(list_base, ele);
-    //gpu_print_element<<<1,1>>>(list_base, ele);
+    gpu_print_element<<<1,1>>>(list_base, ele);
     cudaDeviceSynchronize();
+
+    cudaFree(list_base);
 }
