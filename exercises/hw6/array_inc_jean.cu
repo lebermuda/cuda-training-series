@@ -29,9 +29,9 @@ int main(){
     char* data;
     cudaMallocManaged(&data,2);
 
-    kernel_changeChar<<<1,1>>>(data);
-    data[0]="O";
-
+    //kernel_changeChar<<<1,1>>>(data);
+    data[0] = 'O';
+    data[1] = "k";
     //cudaDeviceSynchronize();
     //printf("%d\n",data);
 
