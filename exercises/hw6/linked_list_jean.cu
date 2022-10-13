@@ -39,7 +39,7 @@ int main(){
     cudaMallocManaged(&matrix,num_elem*num_elem*sizeof(double));
 
     dim3 dimGrid (1,1,1);
-    dim3 dimBlock (num_elem,num_elem,1);
+    dim3 dimBlock (num_elem,num_elem-2,1);
     gpu_kernel<<<dimGrid,dimBlock>>>(matrix,num_elem);
     cudaDeviceSynchronize();
 
