@@ -27,7 +27,7 @@ int main(){
 
     memset(h_array, 0, ds*sizeof(h_array[0]));
 
-    inc<<<256, 256>>>(d_array, ds);
+    inc<<<256, 256>>>(h_array, ds);
     cudaDeviceSynchronize();
 
     for (int i = 0; i < ds; i++)
