@@ -20,11 +20,11 @@ __global__ void gpu_kernel(double* matrix,int n){
     matrix[index]=index;
 }
 
-void printMatrix(double* matrix){
+void printMatrix(double* matrix,int n){
     int index;
-    for (int i = 0;i<num_elem;i++){
-        for (int j = 0;j<num_elem;j++){
-            index=i*num_elem+j;
+    for (int i = 0;i<n;i++){
+        for (int j = 0;j<n;j++){
+            index=i*n+j;
             printf("%f ",matrix[index]);
         }
         printf("\n");
@@ -39,10 +39,10 @@ int main(){
     cudaMallocManaged(&matrix,num_elem*num_elem*sizeof(double));
 
 
-    gpu_kernel<<<5,5>>>(matrix);
+    gpu_kernel<<<5,5>>>(matrix,num_elem);
     cudaDeviceSynchronize();
 
-    printMatrix(matrix);
+    printMatrix(matrix,num_elem);
 
     free(matrix);
 
