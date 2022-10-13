@@ -39,8 +39,17 @@ int main(){
     cudaMallocManaged(&matrix,num_elem*num_elem*sizeof(double));
 
     dim3 dimGrid (1,1,1);
-    dim3 dimBlock (num_elem,num_elem-2,1);
+    dim3 dimBlock (num_elem-2,num_elem,1);
     gpu_kernel<<<dimGrid,dimBlock>>>(matrix,num_elem);
+
+    int index;
+    for (int i = num_element-2;i<num_elem;i++){
+        for (int j = 0;j<num_elem;j++){
+            index=i*num_elem+j;
+            matrix[index]=1;
+        }
+    }
+
     cudaDeviceSynchronize();
 
     printMatrix(matrix,num_elem);
